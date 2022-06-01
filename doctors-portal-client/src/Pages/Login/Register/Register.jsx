@@ -24,7 +24,7 @@ const Register = () => {
             alert('Password did not matched')
             return
         }
-        registerUser(loginData.email, loginData.password)
+        registerUser(loginData.email, loginData.password, loginData.name)
         e.preventDefault();
     }
     return (
@@ -39,10 +39,17 @@ const Register = () => {
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
                                 id="standard-basic"
+                                label="Your Name"
+                                name="name"
+                                onBlur={handleOnChange}
+                                variant="standard" />
+                            <TextField
+                                sx={{ width: '90%', m: 1 }}
+                                id="standard-basic"
                                 type="email"
                                 label="Email"
                                 name="email"
-                                onChange={handleOnChange}
+                                onBlur={handleOnChange}
                                 variant="standard" />
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
@@ -52,7 +59,7 @@ const Register = () => {
                                 autoComplete="current-password"
                                 variant="standard"
                                 name="password"
-                                onChange={handleOnChange}
+                                onBlur={handleOnChange}
                             />
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
@@ -62,7 +69,7 @@ const Register = () => {
                                 autoComplete="current-password"
                                 variant="standard"
                                 name="password2"
-                                onChange={handleOnChange}
+                                onBlur={handleOnChange}
                             />
 
                             <Button

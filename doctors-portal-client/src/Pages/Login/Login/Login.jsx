@@ -11,7 +11,7 @@ const Login = () => {
     let from = location.state?.from?.pathname || "/";
 
     const [loginData, setLoginData] = useState({})
-    const { loginUser, user, authError } = useAuth()
+    const { loginUser, user, authError, signInWithGoogle } = useAuth()
     const handleOnChange = e => {
         const field = e.target.name;
         const value = e.target.value;
@@ -24,6 +24,9 @@ const Login = () => {
     const handleLoginSubmit = e => {
         loginUser(loginData.email, loginData.password)
         e.preventDefault();
+    }
+    const handleGoogleSignIn = () => {
+        signInWithGoogle()
     }
     return (
         <Container>
@@ -40,7 +43,7 @@ const Login = () => {
                                 type="email"
                                 label="Email"
                                 name="email"
-                                onChange={handleOnChange}
+                                onBlur={handleOnChange}
                                 variant="standard" />
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
@@ -50,20 +53,28 @@ const Login = () => {
                                 autoComplete="current-password"
                                 variant="standard"
                                 name="password"
-                                onChange={handleOnChange}
+                                onBlur={handleOnChange}
                             />
 
                             <Button
                                 sx={{ ml: 1, mt: 1, width: '90%' }}
                                 type="submit"
                                 variant="contained">Login</Button>
-                            <NavLink style={{ textDecoration: 'none' }} to="/register"><Button variant="text">New User? Please Register</Button></NavLink>
+                            <Box sx={{ textAlign: 'center', mt: 1, mr: 2 }}>
+                                <NavLink style={{ textDecoration: 'none' }} to="/register"><Button variant="text">New User? Please Register</Button></NavLink>
+                            </Box>
+                            {/* {isLoading && <CircularProgress />} */}
+                            {user?.email && navigate(from, { replace: true })}
+                            {user?.email && <Alert severity="success">User Created Successfully</Alert>}
+                            {authError && <Alert severity="error">{authError}</Alert>}
                         </form>
+                        <p style={{ textAlign: 'center' }}>-----------------------------</p>
+                        <Box sx={{ textAlign: 'center', mr: 1 }}>
+                            <Button onClick={handleGoogleSignIn} variant="contained">Google Sign In</Button>
+                        </Box>
 
-                        {/* {isLoading && <CircularProgress />} */}
-                        {user?.email && navigate(from, { replace: true })}
-                        {user?.email && <Alert severity="success">User Created Successfully</Alert>}
-                        {authError && <Alert severity="error">{authError}</Alert>}
+
+
                     </Box>
                 </Grid>
                 <Grid item xs={12} md={6}>
