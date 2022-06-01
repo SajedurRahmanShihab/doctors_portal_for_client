@@ -45,7 +45,7 @@ const Register = () => {
                                 variant="standard" />
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
-                                id="standard-basic"
+                                id="standard-basic2"
                                 type="email"
                                 label="Email"
                                 name="email"

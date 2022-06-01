@@ -34,10 +34,15 @@ const useFirebase = () => {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 setAuthError('')
-                const newUser = { email, displayName: name }
-                setUser(newUser)
+                    // const newUser = { email, displayName: name }
+                    // setUser(newUser)
+                    // setUser({ displayName: name })
 
                 // send name to firebase after creation
+                updateProfile(auth.currentUser, {
+                    displayName: name,
+                }).then(() => {}).catch((error) => {});
+
 
             })
             .catch((error) => {
