@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import useAuth from '../../../hooks/useAuth';
+import { useState } from 'react';
 
 const style = {
     position: 'absolute',
@@ -24,11 +25,44 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
     const { name, time } = booking;
     const { user } = useAuth()
+    // if user do not change any thing then it will take value from existing form value
+    const initialInfo = { patientName: user.displayName, email: user.email, phone: '' }
+
+    const [bookingInfo, setBookingInfo] = useState(initialInfo)
+
+    // store value on an object from modal form if user update anything
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newInfo = { ...bookingInfo }
+        newInfo[field] = value;
+        // console.log(newInfo)
+        setBookingInfo(newInfo);
+    }
+
 
     const handleBookingSubmit = e => {
-        alert('submitting');
         // collect data
+        const appointment = {
+            ...bookingInfo,
+            // time service name is not available on bookingInfo that's why you have to collect it separately.
+            time,
+            serviceName: name,
+            date: date.toLocaleDateString()
+        }
         // send to the server
+        // console.log(appointment)
+        fetch('http://localhost:3000/appointments', {
+            method: 'POST',
+            header: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(appointment)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+            })
 
         handleBookingClose();
         e.preventDefault();
@@ -65,6 +99,8 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
                                 sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
+                                name="patientName"
+                                onBlur={handleOnBlur}
                                 defaultValue={user.displayName}
                                 size="small"
                             />
@@ -72,12 +108,16 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
 
                                 sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small2"
+                                name="email"
+                                onBlur={handleOnBlur}
                                 defaultValue={user.email}
                                 size="small"
                             />
                             <TextField
                                 sx={{ width: '90%', m: 1 }}
                                 id="outlined-size-small"
+                                name="phone"
+                                onBlur={handleOnBlur}
                                 defaultValue="Phone Number"
                                 size="small"
                             />
