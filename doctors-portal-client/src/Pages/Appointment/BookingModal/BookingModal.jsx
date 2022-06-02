@@ -54,10 +54,11 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
         // console.log(appointment)
         fetch('http://localhost:3000/appointments', {
             method: 'POST',
-            header: {
+            body: JSON.stringify(appointment),
+            headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(appointment)
+
         })
             .then(res => res.json())
             .then(data => {
