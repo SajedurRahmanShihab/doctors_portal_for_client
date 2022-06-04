@@ -21,7 +21,7 @@ const style = {
     p: 4,
 };
 
-const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
+const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBookingSuccess }) => {
 
     const { name, time } = booking;
     const { user } = useAuth()
@@ -62,7 +62,11 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
+                // if data is inserted then close the modal
+                if (data.insertedId) {
+                    setBookingSuccess(true);
+                    handleBookingClose()
+                }
             })
 
         handleBookingClose();

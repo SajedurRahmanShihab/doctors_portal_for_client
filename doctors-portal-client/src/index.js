@@ -12,6 +12,7 @@ import Login from './Pages/Login/Login/Login';
 import Register from './Pages/Login/Register/Register';
 import AuthProvider from './context/AuthProvider/AuthProvider';
 import PrivateOutlet from './Pages/PrivateOutlet/PrivateOutlet';
+import Dashboard from './Pages/Dashboard/Dashboard/Dasboard';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
         <Route path="/" element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="appointment" element={<PrivateOutlet><Appointment /></PrivateOutlet>} />
+        <Route path="dashboard" element={<PrivateOutlet><Dashboard /></PrivateOutlet>} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
 
